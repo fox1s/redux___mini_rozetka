@@ -2,13 +2,12 @@ import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import ProductComponent from "../product/ProductComponent";
 import {appProduct, fetchProductsList} from "../../redux/action-creators";
+import {appProductToBasket} from "../../redux/action-creators/basketList-action-creators";
 
 export default function ProductsListComponent() {
 
     const productsList = useSelector(({productsList}) => productsList.productsList)
-    const wishlist = useSelector(({wishlist}) => wishlist.wishlist)
     const dispatch = useDispatch()
-    // console.log(wishlist)
 
     useEffect(() => {
         fetchProductsList(dispatch).then(r => r)
@@ -19,7 +18,7 @@ export default function ProductsListComponent() {
         dispatch(appProduct(product))
     }
     const basketClick = (product) => {
-        console.log(wishlist)
+        dispatch(appProductToBasket(product))
     }
 
     return (

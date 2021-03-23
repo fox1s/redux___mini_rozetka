@@ -9,32 +9,27 @@ import {useSelector} from "react-redux";
 export default function ProductComponent({product, basketClick, wishListClick}) {
 
 
-    const wishlist = useSelector(({wishlist}) => wishlist.wishlist)
+    const {wishlist, basketList} = useSelector(({wishlist: {wishlist}, basketList: {basketList}}) => ({
+        wishlist,
+        basketList
+    }))
     console.log('render')
     useEffect(() => {
 
-    }, [wishlist,product])
+    }, [wishlist, product])
 
-    const isLoggedIn = false
-    let basket, wishlist_img;
-    if (isLoggedIn) {
-        basket = <img src={basket_free} width={28} onClick={() => {
-        }} alt={'basket'}/>;
+
+    let basket_img, wishlist_img;
+    if (basketList.includes(product)) {
+        basket_img = <img src={basket_with_elem} width={28} onClick={() => basketClick(product)} alt={'basket'}/>;
     } else {
-        basket = <img src={basket_with_elem} width={28} onClick={() => {
-        }} alt={'basket'}/>;
+        basket_img = <img src={basket_free} width={28} onClick={() => basketClick(product)} alt={'basket'}/>;
     }
 
-    // const xxx = wishlist.filter(value => value.id === product.id)
-    // console.log(xxx)
-    // console.log(wishlist.includes(product))
 
     if (wishlist.includes(product)) {
-        // console.log('1')
         wishlist_img = <img src={wishlist_true} width={28} onClick={() => wishListClick(product)} alt={'wishlist'}/>;
-
     } else {
-        // console.log('2')
         wishlist_img = <img src={wishlist_false} width={28} onClick={() => wishListClick(product)} alt={'wishlist'}/>;
 
     }
@@ -43,12 +38,7 @@ export default function ProductComponent({product, basketClick, wishListClick}) 
     return (
         <div className={'product-item'}>
             {product.id}. {product.title} - {product.price} <br/>
-            {/*<button onClick={() => basketClick(product)}>У корзину</button>*/}
-            {/*<button onClick={() => wishListClick(product)}>До списку бажань</button>*/}
-
-            {/*<img src={basket_free} width={28} onClick={() => wishListClick(product)}/>*/}
-            {/*<img src={basket_with_elem} width={28} onClick={() => wishListClick(product)}/>*/}
-            {basket} {wishlist_img}
+            {basket_img} {wishlist_img}
 
             <br/>
 
